@@ -2,7 +2,7 @@
 
 # (var input '(L68 L30 R48 L5 R60 L55 L1 L99 R14 L82))
 
-(var input (string/split "\n" (string/trim (slurp "1.txt"))))
+(var input (string/split "\n" (string/trim (slurp "inputs/1.txt"))))
 
 (set input (map 
              (fn [n]
