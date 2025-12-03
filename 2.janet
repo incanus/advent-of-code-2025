@@ -5,7 +5,7 @@
 (def input (slurp "inputs/2.txt"))
 
 (def range-grammar
-  '{:id (number (some :d))
+  '{:id (number :d+)
     :range (* :id "-" :id)
     :main (* (some (* (group :range) (opt ","))))})
 
