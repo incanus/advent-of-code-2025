@@ -1,8 +1,8 @@
 #!/usr/bin/env janet
 
-# (def input "11-22,95-115,998-1012,1188511880-1188511890,222220-222224,1698522-1698528,446443-446449,38593856-38593862,565653-565659,824824821-824824827,2121212118-2121212124")
+(def input "11-22,95-115,998-1012,1188511880-1188511890,222220-222224,1698522-1698528,446443-446449,38593856-38593862,565653-565659,824824821-824824827,2121212118-2121212124")
 
-(def input (slurp "inputs/2.txt"))
+# (def input (slurp "inputs/2.txt"))
 
 (def range-grammar
   '{:id (number :d+)
@@ -21,3 +21,23 @@
         (+= sum i)))))
 
 (print "Sum A: " sum)
+
+###############################################################################
+
+(def invalid-id-grammar
+  '{:sequence "2"
+    :main (* (at-least 2 :sequence) (! :d))})
+
+#  '(number (at-least 2 "2")))
+#  '(number (at-least 2 :d+)))
+
+(set sum 0)
+
+(loop [range :in ranges]
+  (for i (first range) (+ (last range) 1)
+    (if (peg/match invalid-id-grammar (string i))
+      (do
+        (print i)
+        (+= sum i)))))
+
+(print "Sum B: " sum)
