@@ -2,6 +2,8 @@
 
 (def input "987654321111111 811111111111119 234234234234278 818181911112111")
 
+# (def input (slurp "inputs/3.txt"))
+
 (def grammar
   '{:battery (number :d)
     :bank (some :battery)
