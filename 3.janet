@@ -1,29 +1,30 @@
 #!/usr/bin/env janet
 
-(def input 
-  "987654321111111
-   811111111111119
-   234234234234278
-   818181911112111")
+(def input "987654321111111 811111111111119 234234234234278 818181911112111")
 
 (def grammar
   '{:battery (number :d)
     :bank (some :battery)
     :main (some (* (group :bank) :s*))})
 
-(each bank (peg/match grammar input)
-  (var ranks @[])
-  (for i 0 (length bank)
-    (array/push ranks [(bank i) i]))
-  (var a '(0 math/int32-max))
-  (var b '(0 math/int32-max))
-  (each rank ranks
-    (if (> (rank 0) (a 0)) 
-      (set a rank)))
-  (each rank ranks
-    (if
-      (and
-        (> (rank 0) (b 0))
-        (> (rank 1) (a 1)))
-      (set b rank)))
-  (print (a 0) " " (b 0)))
+(def banks (peg/match grammar input))
+
+(defn solve [bank a b]
+  (if (or (nil? a) (nil? b))
+    (let [max (max-of bank)
+          pos (index-of max bank)
+          lst (- (length bank) 1)]
+      (if (= pos lst)
+        (do
+          (array/pop bank)
+          (if (and (nil? a) (nil? b))
+            (solve bank a max)
+            (solve bank max b)))
+        (let [bank (slice bank (+ pos 1))]
+          (if (nil? a)
+            (solve bank max b)
+            (solve bank a max)))))
+    (do
+      (scan-number (string a b)))))
+
+(print (apply + (map |(solve $ nil nil) banks)))
