@@ -11,22 +11,22 @@
 
 (def banks (peg/match grammar input))
 
-(defn solve [bank a b]
+(defn solve [bank &opt a b]
   (if (or (nil? a) (nil? b))
     (let [max (max-of bank)
           pos (index-of max bank)
-          lst (- (length bank) 1)]
+          lst (dec (length bank))]
       (if (= pos lst)
         (do
           (array/pop bank)
           (if (and (nil? a) (nil? b))
             (solve bank a max)
             (solve bank max b)))
-        (let [bank (slice bank (+ pos 1))]
+        (let [bank (slice bank (inc pos))]
           (if (nil? a)
             (solve bank max b)
             (solve bank a max)))))
     (do
       (scan-number (string a b)))))
 
-(print (apply + (map |(solve $ nil nil) banks)))
+(print (apply + (map |(solve $) banks)))
