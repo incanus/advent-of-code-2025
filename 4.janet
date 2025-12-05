@@ -1,17 +1,19 @@
 #!/usr/bin/env janet
 
-(def input ``
-..@@.@@@@.
-@@@.@.@.@@
-@@@@@.@.@@
-@.@@@@..@.
-@@.@@@@.@@
-.@@@@@@@.@
-.@.@.@.@@@
-@.@@@.@@@@
-.@@@@@@@@.
-@.@.@@@.@.
-``)
+#(def input ``
+#..@@.@@@@.
+#@@@.@.@.@@
+#@@@@@.@.@@
+#@.@@@@..@.
+#@@.@@@@.@@
+#.@@@@@@@.@
+#.@.@.@.@@@
+#@.@@@.@@@@
+#.@@@@@@@@.
+#@.@.@@@.@.
+#``)
+
+(def input (slurp "inputs/4.txt"))
 
 (def directions
   [ [-1 -1]    # nw
@@ -30,4 +32,26 @@
 
 (def rows (peg/match grammar input))
 
-(pp rows)
+#(pp rows)
+
+(var total 0)
+
+(let [last-row (- (length rows) 1)]
+  (for r 0 (length rows)
+    (let [row (rows r)]
+      (each roll row
+        (var neighbors 0)
+        (each direction directions
+          (let [x (direction 0)
+                y (direction 1)
+                check-row (+ r y)
+                check-col (+ roll x)]
+            (if (and (>= check-row 0)
+                     (<= check-row last-row))
+              (if (index-of check-col (get rows check-row))
+                (do
+                  (++ neighbors))))))
+        (if (< neighbors 4)
+          (++ total))))))
+
+(print "A: " total)
