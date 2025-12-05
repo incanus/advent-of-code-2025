@@ -32,26 +32,31 @@
 
 (def rows (peg/match grammar input))
 
-#(pp rows)
-
-(var total 0)
-
-(let [last-row (dec (length rows))]
-  (for r 0 (length rows)
-    (let [row (rows r)]
-      (each roll row
-        (var neighbors 0)
-        (each direction directions
-          (let [x (direction 0)
-                y (direction 1)
-                check-row (+ r y)
-                check-col (+ roll x)]
-            (if (and (>= check-row 0)
-                     (<= check-row last-row))
-              (if (index-of check-col (get rows check-row))
+(defn count-rolls [&opt remove]
+  (var total 0)
+  (var row nil)
+  (let [last-row (dec (length rows))]
+    (for r 0 (length rows)
+      (with-vars [row (rows r)]
+        (each roll row
+          (var neighbors 0)
+          (each direction directions
+            (let [x (direction 0)
+                  y (direction 1)
+                  check-row (+ r y)
+                  check-col (+ roll x)]
+              (if (and (>= check-row 0)
+                       (<= check-row last-row))
+                (if (index-of check-col (get rows check-row))
+                  (do
+                    (++ neighbors))))))
+          (if (< neighbors 4)
+            (do
+              (if remove
                 (do
-                  (++ neighbors))))))
-        (if (< neighbors 4)
-          (++ total))))))
+                  (set row (filter |(not= $ roll) row))
+                  (put rows r row)))
+              (++ total)))))))
+  total)
 
-(print "A: " total)
+(print "A: " (count-rolls))
