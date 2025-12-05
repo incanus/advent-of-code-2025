@@ -26,7 +26,7 @@
     [ 1  1] ]) # se
 
 (def grammar
-  ~{:roll (+ (* (/ (column) ,|(- $ 1)) "@") (drop "."))
+  ~{:roll (+ (* (/ (column) ,|(dec $)) "@") (drop "."))
     :row (group (* (some :roll) (drop :s*)))
     :main (some :row)})
 
@@ -36,7 +36,7 @@
 
 (var total 0)
 
-(let [last-row (- (length rows) 1)]
+(let [last-row (dec (length rows))]
   (for r 0 (length rows)
     (let [row (rows r)]
       (each roll row
