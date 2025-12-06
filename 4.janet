@@ -61,6 +61,8 @@
 
 (print "A: " (count-rolls))
 
+###############################################################################
+
 (var removed-total 0)
 (while (pos? (def count (count-rolls true)))
   (+= removed-total count))
