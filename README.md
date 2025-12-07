@@ -9,3 +9,4 @@ Another go at the [challenge](https://adventofcode.com), again with [Janet](http
 |3| | |
 |4|x|x|
 |5|x| |
+|6|x| |
