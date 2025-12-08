@@ -66,7 +66,7 @@
         (do
           (set digits (flatten digits))
           (var operand 0)
-	  (var place 1)
+          (var place 1)
           (each digit (reverse digits)
             (+= operand (* digit place))
             (set place (* place 10)))
