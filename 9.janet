@@ -18,6 +18,10 @@
 
 (def tiles (peg/match grammar input))
 
+(defn area [corners]
+  (* (inc (math/abs (- ((corners 0) 0) ((corners 1) 0))))
+     (inc (math/abs (- ((corners 0) 1) ((corners 1) 1))))))
+
 (defn visualize [tiles &opt corners]
   (let [width  (+ 3 (max-of (map |(get $ 0) tiles)))
         height (+ 2 (max-of (map |(get $ 1) tiles)))]
@@ -34,9 +38,7 @@
             (prin "."))))
       (print)))
   (if corners
-    (print "area: "
-        (* (inc (math/abs (- ((corners 0) 0) ((corners 1) 0))))
-           (inc (math/abs (- ((corners 0) 1) ((corners 1) 1))))))
+    (print "area: " (area corners))
     (print "(no corners)"))
   (print))
 
