@@ -1,15 +1,17 @@
 #!/usr/bin/env janet
 
-(def input ``
-7,1
-11,1
-11,7
-9,7
-9,5
-2,5
-2,3
-7,3
-``)
+#(def input ``
+#7,1
+#11,1
+#11,7
+#9,7
+#9,5
+#2,5
+#2,3
+#7,3
+#``)
+
+(def input (slurp "inputs/9.txt"))
 
 (def grammar
   '{:coordinate (* (number :d+) "," (number :d+))
@@ -17,6 +19,9 @@
     :main (* (some :line))})
 
 (def tiles (peg/match grammar input))
+
+(print (length tiles) " tiles:")
+(print)
 
 (defn area [corners]
   (* (inc (math/abs (- ((corners 0) 0) ((corners 1) 0))))
@@ -42,9 +47,9 @@
     (print "(no corners)"))
   (print))
 
-(visualize tiles)
-(visualize tiles [ [2 5] [9 7] ])
-(visualize tiles [ [7 1] [11 7] ])
+#(visualize tiles)
+#(visualize tiles [ [2 5] [9 7] ])
+#(visualize tiles [ [7 1] [11 7] ])
 
 (var max-area 0)
 (each tile tiles
