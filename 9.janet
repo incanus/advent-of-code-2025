@@ -45,3 +45,12 @@
 (visualize tiles)
 (visualize tiles [ [2 5] [9 7] ])
 (visualize tiles [ [7 1] [11 7] ])
+
+(var max-area 0)
+(each tile tiles
+  (each other-tile tiles
+    (if-not (deep= tile other-tile)
+      (let [area (area [tile other-tile])]
+        (if (> area max-area)
+          (set max-area area))))))
+(print "A: " max-area)
