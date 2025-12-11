@@ -13,3 +13,5 @@ Another go at the [challenge](https://adventofcode.com), again with [Janet](http
 |7|x| |
 |8| | |
 |9|x| |
+|10| | |
+|11|x| |
